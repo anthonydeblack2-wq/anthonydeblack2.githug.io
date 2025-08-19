@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechOrigin E-commerce</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .product img {
+            max-width: 200px;
+        }
+        .header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 0;
+    background-size: cover;
+}
+.header nav ul {
+    list-style: none;
+    padding: 0;
+}
+.header nav li {
+    display: inline;
+    margin-right: 20px;
+}
+.header nav a {
+    color: #fff;
+    text-decoration: none;
+}
+.hero {
+    text-align: center;
+    padding: 100
+}
+        .cart, .checkout {
+            margin-top: 20px;
+        }
+        .cart-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header">
+    <div class="container">
+        <h1>Welcome to TechOrigin E-commerce</h1>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#activities">ICT Activity</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="tel:+256773252240/+256745945487">Contact</a></li>
+                    <li><a href="#autobiography">Autobiography</a></li>
+                </ul>
+            </nav>
+            <form id="search-form" class="search-form" action="index.php" method="GET">
+                <input type="text" id="search-input" name="search" placeholder="Search...">
+                <button type="submit" class="btn">Search</button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container">
+            <h2><marquee>Explore the World of ICT</marquee></h2>
+            <p>Find out about the latest technologies, trends, and activities</p>
+        </div>
+    </section>
+
+    <!-- Google Account Integration -->
+    <section id="login" class="login">
+        <div class="container">
+            <h2>Login with Google</h2>
+            <p>Click the button below to login using your Google account:</p>
+            <a href="#" class="btn">Login with Google</a>
+            <!-- Replace # with actual OAuth link when ready -->
+        </div>
+    </section>
+
+    <!-- ICT Activities -->
+    <section id="activities" class="activities">
+        <div class="container">
+            <h3>Web Development</h3>
+            <p>Join us for an interactive workshop on building modern websites.</p>
+            <h3>Data Science Boot Camp</h3>
+            <p>Discover the power of data analytics and machine learning.</p>
+            <h3>Programming Course</h3>
+            <p>Learn programming languages like Python, JavaScript, and more...</p>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h1><a href="">About Us</a></h1>
+            <p>We are passionate about ICT and aim to educate and inspire through programs and workshops.</p>
+            <p>Contact us and learn more about our Mission and Vision.</p>
+        </div>
+    </section>
+<!--Autobiography-->
+<section id="Autobiography" class="Autobiography">
+  <div class="container">
+     <h3><a href="C:\Users\Lenovo\Desktop\Soft ware\Gunna UG - Sasira.mp3">Autobiograohy</a></h3>
+<p>My name is Loboyng Anthony<br>Age 18,date of birth July 6,2007<br>Nationalism S.Sudane<br>I was born in the bustling heart of Juba-S.South,a city vibrant with life, and culture.Growing up on hands of Mary Dudu who's my grandma in this enchanting place,i was enveloped by the unwavering love and encouragement of my family.My parents,Rose Stellah,affectionately known as S.Sudane and Samuel Bugere who's lovingly reffered to as S.Sudane became my guldline stars.Grandma imparted to the invaluable values of kindness,resilence,and the pursuits of knowledge-principles that the world serve my compass throughout my life,and encouraging me to dream big and reach for the stars.From my earliest memories,my home was a sanctaury filled with love ,laughter and support.creating an environment where i felt safe to explore my trueself.As i navigated the early years of my life,every achivement no matter how small-sparked joy in our home.My  sibling Scholes and Trevor were my companion in this adventure. </p>
+<p>My Education journey began at Ebenezer Nursery,and Primary school in kajukiji-S.Sudane,sparking my love for learning, which flourished further at Ebenezer Secondary School in kyadondo-kampala where i achieved the knowledge and skills of ICT with dream of being a "computer scientist" then got up the idea of developing "TechOgrin E-Commerce Website"when developing this webpage Mr.Irumba Mosse,and Mr.Kabuye Ibramhim were my guilding stars beside them and Ms Jane afterrelocating to St.Gyaviira High School.Where i currently study and proudly serve as the "President of ICT Club".This positon not only allow me to explore my passion for technology but also to inspire and support my fellow students in thier pursuits.I'm filled  with hope and determination as look forward to new opportunities and aspire to positively impact my community,inspired by the love instilled in my family. </p>
+    <?php
+// Start session for cart
+session_start();
+
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "techorigin";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Add to cart logic
+if (isset($_POST['add_to_cart'])) {
+    $product_id = $_POST['product_id'];
+    $quantity = $_POST['quantity'];
+
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+
+    if (isset($_SESSION['cart'][$product_id])) {
+        $_SESSION['cart'][$product_id]['quantity'] += $quantity;
+    } else {
+        // Fetch product info from database
+        $sql = "SELECT * FROM products WHERE id = $product_id";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $product = $result->fetch_assoc();
+            $_SESSION['cart'][$product_id] = [
+                'name' => $product['name'],
+                'price' => $product['price'],
+                'quantity' => $quantity
+            ];
+        }
+    }
+}
+
+// Checkout logic (simple)
+if (isset($_POST['checkout'])) {
+    if (!empty($_SESSION['cart'])) {
+        echo "<script>alert('Checkout successful!');</script>";
+        unset($_SESSION['cart']); // Clear cart after checkout
+    } else {
+        echo "<script>alert('Your cart is empty!');</script>";
+    }
+}
+?>
+<!-- Products List -->
+        <h2>Products</h2>
+        <div class="products">
+            <?php
+            $sql = "SELECT * FROM products";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) 
+             // Output data of each row{
+                while($row = $result->fetch_assoc()) {
+                    echo "<div class='product'>";
+                    echo "<img src='{$row['image']}' alt='{$row['name']}'>";
+                    echo "<h3>{$row['name']}</h3>";
+                    echo "<p>{$row['description']}</p>";
+                    echo "<p>Price: \${$row['price']}</p>";
+                    echo "<a href='tel:+256773252240/+256775347259/+256701645569' class='btn'>Contacts to Purchase</a>";
+                    echo "<form method='POST' action=''>";
+                    echo "<input type='hidden' name='product_id' value='{$row['id']}'>";
+                    echo "<label for='quantity'>Quantity:</label>";
+                    echo "<input type='number' name='quantity' value='1' min='1' required>";
+                    echo "<button type='submit' name='add_to_cart' class='btn'>Add to Cart</button>";
+                    echo "</form>";
+                    echo "</div>";
+                }
+            } else {
+                echo "No products available.";
+            }
+            ?>
+            <p>If you need any item, please <a href="tel:+256773252240/+256745945487/+256775347259/+256701645569">contact us</a> for more details.</p>
+        </div>
+
+        <!-- Cart -->
+        <h2>Your Cart</h2>
+        <div class="cart">
+            <?php
+            if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+                foreach ($_SESSION['cart'] as $product_id => $item) {
+                    echo "<div class='cart-item'>";
+                    echo "<h4>{$item['name']}</h4>";
+                    echo "<p>Quantity: {$item['quantity']}</p>";
+                    echo "<p>Price: \${$item['price']}</p>";
+                    echo "<p>Total: $" . ($item['price'] * $item['quantity']) . "</p>";
+                    echo "</div>";
+                }
+            } else {
+                echo "<p>Your cart is empty.</p>";
+            }
+            ?>
+        </div>
+
+        <!-- Checkout -->
+        <div class="checkout">
+            <form method="POST" action="">
+                <button type="submit" name="checkout" class="btn">Checkout</button>
+            </form>
+        </div>
+    </div>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h1>GET IN TOUCH</h1>
+            <form id="contact-form" action="index.php" method="POST">
+                <label for="name">YOUR NAME</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">YOUR EMAIL</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">YOUR MESSAGE</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+                <button type="submit" class="btn">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ICT TechOrigin. All Rights Reserved, and Design by Loboyng Anthony.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // JavaScript for form submission handling
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Simulate form submission
+            alert('Message sent successfully!');
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('message').value = '';
+        });
+    </script>
+</body>
+</html>
